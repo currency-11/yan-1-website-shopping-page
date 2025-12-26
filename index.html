@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🛍️ College Shopping Hub</title>
+  <title>🛍️ Shopping Hub</title>
   <meta name="description" content="Browse and order products across categories - clothes, study materials, cosmetics, electronics and more for college students." />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -112,7 +112,17 @@
       background:rgba(255,255,255,0.9);padding:4px 8px;
       border-radius:4px;font-size:0.875rem;color:#111827;
     }
-    .archive-viewer iframe{width:100%;height:80vh;border:none;border-radius:8px;}
+    .archive-viewer{
+      padding:0;
+      align-items:flex-start;
+      justify-content:flex-start;
+    }
+    .archive-viewer .viewer-btn.close{
+      position:absolute;top:20px;right:20px;z-index:10;
+    }
+    .archive-viewer iframe{
+      width:100vw;height:100vh;border:none;
+    }
     .order-modal-content{
       background:#fff;padding:20px;border-radius:8px;
       width:100%;max-width:400px;
@@ -140,6 +150,14 @@
       cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.3);z-index:1000;
     }
     .feedback-btn:hover{background:#1d4ed8;}
+    /* ------- Footer ------- */
+    .footer{
+      position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+      width:100%;max-width:1200px;
+      text-align:center;color:#6b7280;background:rgba(255,255,255,0.9);
+      padding:8px 0;font-size:0.875rem;z-index:900;
+    }
+    .footer a{color:#6b7280;text-decoration:none;}
     /* ------- Hide sections by default ------- */
     .items-section{display:none;}
     .back-section{display:none;}
@@ -148,7 +166,7 @@
 
 <body>
   <div class="container">
-    <h1>🛒 College Shopping Hub</h1>
+    <h1>🛒 Shopping Hub</h1>
     <p class="subtitle">Browse and order products across categories</p>
 
     <!-- Global Search -->
@@ -293,7 +311,7 @@
       <div class="order-modal-header">
         <h2>Feedback</h2>
         <button id="closeFeedbackBtn" class="close-modal">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"></path></svg>
+          <svg width="20" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"></path></svg>
         </button>
       </div>
       <p>🔐 Login or sign up with GitHub to give the feedback.</p>
@@ -301,6 +319,9 @@
       <p id="countdown" style="text-align:center;font-size:1.5rem;margin-top:12px;">5</p>
     </div>
   </div>
+
+  <!-- Footer -->
+  <footer class="footer">© 2026 Shopping Hub· Built with ❤️ by YAN</footer>
 
   <script>
     /* ------- Configuration ------- */
@@ -452,11 +473,11 @@
     }
 
     function createCard(item){
-      const title = item.item || "(no title)";
-      const images = getImageUrls(item);
+      const title   = item.item || "(no title)";
+      const images  = getImageUrls(item);
       const preview = images[0] || FALLBACK_IMAGE;
-      const price = item.price || item.total_price || "N/A";
-      const stock = item.stock;
+      const price   = item.price || item.total_price || "N/A";
+      const stock   = item.stock;
       const stockNum = typeof stock==="number"?stock:parseInt(String(stock));
       const outOfStock = !isNaN(stockNum) && stockNum<=0;
 
@@ -579,7 +600,7 @@
       const term = q.toLowerCase().trim();
       if(!term) return;
       const results = allItems.filter(it=>{
-        const idMatch = String(it.id).toLowerCase().includes(term);
+        const idMatch   = String(it.id).toLowerCase().includes(term);
         const nameMatch = (it.item||"").toLowerCase().includes(term);
         return idMatch||nameMatch;
       });
@@ -599,7 +620,7 @@
       let arr=[];
       if(isSearchMode){
         arr = filteredItems.filter(it=>{
-          const idMatch = String(it.id).toLowerCase().includes(term);
+          const idMatch   = String(it.id).toLowerCase().includes(term);
           const nameMatch = (it.item||"").toLowerCase().includes(term);
           return idMatch||nameMatch;
         });
@@ -608,7 +629,7 @@
         arr = allItems.filter(i=> (i.type||"").toLowerCase()===cat);
         if(term){
           arr = arr.filter(it=>{
-            const idMatch = String(it.id).toLowerCase().includes(term);
+            const idMatch   = String(it.id).toLowerCase().includes(term);
             const nameMatch = (it.item||"").toLowerCase().includes(term);
             return idMatch||nameMatch;
           });
@@ -747,7 +768,7 @@
         }else{
           clearInterval(feedbackInterval);
           feedbackModal.classList.remove("active");
-          window.location.href = "https://github.com/OpenThoughtVoice/OpenThoughtVoice/discussions/6";
+          window.open("https://github.com/OpenThoughtVoice/OpenThoughtVoice/discussions/6","_blank");
         }
       },1000);
     }
